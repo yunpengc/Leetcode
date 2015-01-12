@@ -1,0 +1,70 @@
+/*Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+push(x) -- Push element x onto stack.
+pop() -- Removes the element on top of the stack.
+top() -- Get the top element.
+getMin() -- Retrieve the minimum element in the stack.*/
+
+1. Using existing Java Stack Methods
+
+class MinStack {
+    private Stack<Integer> A = new Stack<Integer>();
+    private Stack<Integer> B = new Stack<Integer>();
+    public void push(int x) {
+        if(B.isEmpty() || x<=B.peek())
+            B.push(x);
+        A.push(x);
+    }
+    public void pop() {
+        if(top()==getMin())
+        //wrong if A.peek()==B.peek();
+            B.pop();
+        A.pop();
+    }
+    public int top() {
+        return A.peek();
+    }
+    public int getMin() {
+        return B.peek();
+    }
+}
+
+2. Without using existing Java Stack Methods
+
+class MinStack {
+    Node top = null;
+    public void push(int x) {
+        if(top==null){
+            top = new Node(x);
+            top.min = x;
+        }else{
+            Node newNode = new Node(x);
+            newNode.next = top;
+            top = newNode;
+            top.min = Math.min(x,top.next.min);
+            //runtime error if below
+            /*if(x<top.min){
+                top.min = x;
+            }else{
+                top.min = top.next.min;
+            }*/
+        }
+    }
+    public void pop() {
+        top = top.next;
+    }
+    public int top() {
+        return top.item;
+    }
+    public int getMin() {
+        return top.min;
+    }
+}
+class Node{
+    Node next;
+    int item;
+    int min;
+    public Node(int item){
+        this.item = item;
+    }
+}
