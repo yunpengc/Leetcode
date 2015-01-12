@@ -11,6 +11,6 @@ class Solution{
         int a = 0;
         for(int i:A)
             a = a ^ i;
-        return a;
+        return a; 
   }
 }
