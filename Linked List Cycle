@@ -1,0 +1,66 @@
+Given a linked list, determine if it has a cycle in it.
+Follow up:
+Can you solve it without using extra space?
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+
+1. Mine (False: the definition of ListNode has been given)
+//add flag to each node to find if visited
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        if(head==null) return false;
+        while(head.next!=null){
+            if(head.visited){
+                return true;
+            }else{
+                head.visited = true;
+                head = head.next;
+            }
+        }
+        return false;
+    }
+}
+
+class ListNode{
+    int item;
+    ListNode next;
+    boolean visited;
+    public ListNode(int item, boolean visited){
+        this.item = item;
+        next = null;
+        visited = false;
+    }
+}
+
+2. Second One (can be improved to find the start point and length of the loop)
+//set two pointers, one moves 1 step each tiem, the other one moves 2 steps each time
+
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        if(head==null || head.next==null) return false;
+        ListNode tail = null;
+        tail = head;
+        while(tail.next!=null){
+            head = head.next;
+            if(tail.next.next == null){
+                return false;
+            }else{
+                tail = tail.next.next;
+            }
+            if(head == tail){
+                return true;
+            }
+        }
+        return false;
+    }
+}
