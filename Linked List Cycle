@@ -50,13 +50,9 @@ public class Solution {
         if(head==null || head.next==null) return false;
         ListNode tail = null;
         tail = head;
-        while(tail.next!=null){
+        while(tail != null && tail.next!=null){
             head = head.next;
-            if(tail.next.next == null){
-                return false;
-            }else{
-                tail = tail.next.next;
-            }
+            tail = tail.next.next;
             if(head == tail){
                 return true;
             }
