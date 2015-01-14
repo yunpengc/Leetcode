@@ -4,6 +4,7 @@ Given 1->1->2, return 1->2.
 Given 1->1->2->3->3, return 1->2->3.
 
 1. 
+//
 public class Solution {
     public ListNode deleteDuplicates(ListNode head) {
         if(head==null || head.next==null) return head;
@@ -14,6 +15,35 @@ public class Solution {
             }else{
                 tail = tail.next;
             }
+        }
+        return head;
+    }
+}
+
+2.
+//
+public class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head==null) return null;
+        if(head.next==null) return head;
+        ListNode prev = head;
+        ListNode curr = head.next;
+        if(head.next.next==null){
+            if(prev.val == curr.val){
+                prev = curr;
+                return prev;
+            }else{
+                return head;
+            }
+        }
+        //not curr.next !!!!!
+        while(curr!=null){
+            if(prev.val == curr.val){
+                prev.next = curr.next;
+            }else{
+                prev = curr;
+            }
+            curr = curr.next;
         }
         return head;
     }
