@@ -3,8 +3,8 @@ For example,
 Given 1->1->2, return 1->2.
 Given 1->1->2->3->3, return 1->2->3.
 
-1. 
-//
+1. Mine
+//set another node object to replace head
 public class Solution {
     public ListNode deleteDuplicates(ListNode head) {
         if(head==null || head.next==null) return head;
@@ -28,14 +28,6 @@ public class Solution {
         if(head.next==null) return head;
         ListNode prev = head;
         ListNode curr = head.next;
-        if(head.next.next==null){
-            if(prev.val == curr.val){
-                prev = curr;
-                return prev;
-            }else{
-                return head;
-            }
-        }
         //not curr.next !!!!!
         while(curr!=null){
             if(prev.val == curr.val){
