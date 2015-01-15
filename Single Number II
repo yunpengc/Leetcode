@@ -1,0 +1,49 @@
+Given an array of integers, every element appears three times except for one. Find that single one.
+Note:
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+
+1.
+//all integers appears three times except one, so the total of one bit of all numbers % 3 must be 0 or 1,
+//that is the value of the single number at the bit, just %3 and add up all bits together to get the number.
+//time: O(n), space: O(1)
+public class Solution {
+    public int singleNumber(int[] A) {
+        if(A.length==0 || A.length==2 || A.length==3) return -1;
+        if(A.length==1) return A[0];
+        int[] counter = new int[32];
+        int result = 0;
+        int tmp = 0;
+        for(int i=0;i<32;++i){
+            for(int j=0;j<A.length;++j){
+                tmp = (A[j]>>i) & 1;
+                counter[i] += tmp;
+            }
+            result |= (counter[i] % 3)<<i;
+        }
+        return result;
+    }
+}
+
+2. hashmap
+//time:O(n), space:O(n)
+public class Solution {
+     public int singleNumber(int[] A) {
+         if(A.length== 0) return -1;
+         Map<Integer, Integer> counts = new HashMap<Integer, Integer>();
+         for(int i = 0; i < A.length; ++i){
+             if(counts.containsKey(A[i])){
+                 counts.put(A[i], counts.get(A[i]) + 1);
+             } else {
+                 counts.put(A[i], 1);
+             }
+          }
+         Iterator<Map.Entry<Integer, Integer>> iterator = counts.entrySet().iterator();
+         while(iterator.hasNext()){
+             Map.Entry<Integer, Integer> entry = iterator.next();
+             if(entry.getValue() != 3){
+                 return entry.getKey();
+             }
+         }
+         return 0;
+     }
+}
