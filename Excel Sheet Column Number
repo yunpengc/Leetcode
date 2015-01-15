@@ -1,0 +1,30 @@
+Given a column title as appear in an Excel sheet, return its corresponding column number.
+For example:
+    A -> 1
+    B -> 2
+    C -> 3
+    ...
+    Z -> 26
+    AA -> 27
+    AB -> 28 
+    
+    1. Mine
+    public class Solution {
+      public static int A = Character.getNumericValue('A');
+      public int titleToNumber(String s) {
+          if(s=="") return 0;
+          char[] c = s.toCharArray();
+          int sum = 0;
+          int i, k;
+          for(i=c.length-1, k=0;i>=0;--i, ++k){
+              int j = (Character.getNumericValue(c[i]) - A + 1) * pow(26, k);
+              sum += j;
+          }
+          return sum;
+      }
+      public int pow(int base, int expo){
+          if(base==0) return 0;
+          if(expo==0) return 1;
+          return base * pow(base, expo-1);
+      }
+    }
