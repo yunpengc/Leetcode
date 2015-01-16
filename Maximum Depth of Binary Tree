@@ -19,6 +19,7 @@ public class Solution {
     }
     public int getHeight(TreeNode n){
         if(n==null) return 0;
+        if(n.left==null && n.right==null) return 1;
         int len1=0;
         int len2=0;
         if(n.left!=null){
@@ -27,7 +28,6 @@ public class Solution {
         if(n.right!=null){
             len2 = getHeight(n.right) + 1;
         }
-        if(n.left==null && n.right==null) return 1;
         return Math.max(len1, len2);
     }
 }
