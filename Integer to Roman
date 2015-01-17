@@ -13,18 +13,6 @@ public class Solution {
                 num -= b[i];
                 s += a[i];
             }
-            /*if(num>=b[i]){
-                num -= b[i];
-                s += a[i];
-            }
-            if(num>=b[i]){
-                num -= b[i];
-                s += a[i];
-            }
-            if(num>=b[i]){
-                num -= b[i];
-                s += a[i];
-            }*/
         }
         return s;
     }
