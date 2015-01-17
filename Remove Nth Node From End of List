@@ -3,6 +3,7 @@ For example,
    Given linked list: 1->2->3->4->5, and n = 2.
    After removing the second node from the end, the linked list becomes 1->2->3->5.
 
+1.
 public class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
         if(head==null || head.next==null) return null;
@@ -23,5 +24,29 @@ public class Solution {
         }
         slow.next = slow.next.next;
         return head;
+    }
+}
+
+2.
+public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null || head.next==null) return null;
+        ListNode tmp = head;
+        int len = getHeight(tmp);
+        if(n>len) return null;
+        if(n==len) return tmp.next;
+        for(int i=0;i<len-n-1;++i){
+            tmp = tmp.next;
+        }
+        tmp.next = tmp.next.next;
+        return head;
+    }
+    public int getHeight(ListNode node){
+        int len = 1;
+        while(node.next!=null){
+            node = node.next;
+            len++;
+        }
+        return len;
     }
 }
