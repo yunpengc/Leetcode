@@ -3,7 +3,8 @@ Suppose a sorted array is rotated at some pivot unknown to you beforehand.
 Find the minimum element.
 You may assume no duplicate exists in the array.
 
-1.
+1.Mine
+//just iterate the array
 public class Solution {
     public int findMin(int[] num) {
         if(num.length==0) return -1;
@@ -18,3 +19,17 @@ public class Solution {
 }
 
 2.
+//binary search
+public class Solution {
+    public int findMin(int[] num) {
+        int left=0, right=num.length-1, mid=0;
+        if(left==right || num[left]<num[right]) return num[0];
+        if(left==right-1)   return num[0]>num[1]?num[1]:num[0];
+        while(left<right-1){
+            mid=(left+right)/2;
+            if(num[left]<num[mid])  left=mid;
+            if(num[right]>num[mid]) right=mid;
+        }
+        return num[right];
+    }
+}
