@@ -19,3 +19,17 @@ public class Solution {
 }
 
 2.
+public class Solution {
+    public int findMin(int[] num) {
+        int left=0, right=num.length-1, mid=0;
+        if(left==right || num[left]<num[right]) return num[0];
+        if(left==right-1)   return num[0]>num[1]?num[1]:num[0];
+        while(right>0 && num[left]==num[right]) right--;
+        while(left<right-1){
+            mid=(left+right)/2;
+            if(num[right]>=num[mid]) right=mid;
+            else left=mid+1;
+        }
+        return Math.min(num[left], num[right]);
+    }
+}
