@@ -19,6 +19,7 @@ public class Solution {
 }
 
 2.
+//binary
 public class Solution {
     public int findMin(int[] num) {
         int left=0, right=num.length-1, mid=0;
