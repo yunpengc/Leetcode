@@ -10,7 +10,8 @@ The minimum depth is the number of nodes along the shortest path from the root n
  * }
  */
 1.
-//recursive
+//recursive: if root has no left or right node, can't just return 0, 
+//go to the other subtree to find the nearest leaf node
 public class Solution {
     public int minDepth(TreeNode root) {
         if(root==null) return 0;
@@ -24,4 +25,38 @@ public class Solution {
 }
 
 2.
-//non-recursive
+//non-recursive, similar to BFS
+public class Solution {
+    public int minDepth(TreeNode root) {
+        if(root==null) return 0;
+        if(root.left==null && root.right==null) return 1;
+        //lastNum: the number of nodes left in the queue(current level or previous level)
+        //currNum: the number of nodes in the same level(next level or current level)
+        int lastNum=1, currNum=0, depth=1;
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();  //initialize a queue
+        queue.offer(root);
+        while(queue.size()>0){
+            TreeNode node = queue.poll();
+            lastNum--;
+            if(node.left==null&&node.right==null){
+                return depth;
+            }
+            if(node.left!=null){
+                queue.offer(node.left);
+                currNum++;
+            }
+            if(node.right!=null){
+                queue.offer(node.right);
+                currNum++;
+            }
+            if(lastNum==0){ 
+            //when the previous level of nodes are all polled, begin to visit the nodes in next level,
+            //they must be all in the queue, and currNum begins to record next level
+                lastNum = currNum;
+                currNum = 0;
+                depth++;
+            }
+        }
+        return 0;
+    }
+}
