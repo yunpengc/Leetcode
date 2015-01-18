@@ -1,0 +1,106 @@
+Design and implement a data structure for Least Recently Used (LRU) cache. 
+It should support the following operations: get and set.
+get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+set(key, value) - Set or insert the value if the key is not already present. 
+When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+
+1. //Using double linked list and hashmap
+//once get, if exist in the hashmap, get the value from map and push the node to the head of linked list
+//once set, if exist in the hashmap, just update the node value; if not exist and not exceed capacity, 
+//new a node, add an entry in hashmap and put the node to the head of linked list;
+//if not exist in the hashmap and exceed the capacity, remove the last node in the linked list, get the key of the node,
+//remove the key in the hashmap, new a node, add to the head of the linked list, add an entry in hashmap
+
+public class LRUCache {
+    int capacity;
+    Node head, tail;
+    Map<Integer, Node> map;
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        map = new HashMap<Integer, Node>();
+        head = new Node(-1, -1);
+        tail = new Node(1, 1);
+        head.next = tail;
+        tail.prev = head;
+    }
+    public int get(int key) {
+        if(map.containsKey(key)){
+            Node p = map.get(key);
+            putToHead(p);
+            return p.val;
+        }else{
+            return -1;
+        }    
+    }
+    public void set(int key, int value) {
+        if(map.containsKey(key)){
+            Node p = map.get(key);
+            p.val = value;
+            putToHead(p);
+        }else if(map.size() < capacity){
+            Node p = new Node(key, value);
+            putToHead(p);
+            map.put(key, p);
+        }else{
+            Node p = new Node(key, value);
+            int k = removeEnd();
+            map.remove(k);
+            putToHead(p);  
+            map.put(key, p);
+        }
+    }
+    public void putToHead(Node p){
+        if(p.next != null && p.prev != null) {  
+            p.prev.next = p.next;  
+            p.next.prev = p.prev;  
+        }  
+        p.prev = head;  
+        p.next = head.next;  
+        head.next.prev = p;  
+        head.next = p;
+    }
+    public int removeEnd(){
+        Node p = tail.prev;  
+        tail.prev.prev.next = tail;  
+        tail.prev = p.prev;  
+        p.prev = null;  
+        p.next = null;  
+        return p.key; 
+        
+    }
+}
+class Node {  
+    Node prev;  
+    Node next;  
+    int key;  
+    int val;  
+    Node(int key, int val) {  
+        this.key = key;  
+        this.val = val;  
+    }  
+}  
+
+2.
+//Using existing LinkedHashMap
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LRUCache extends LinkedHashMap<Integer, Integer>{
+    private int capacity;
+    public LRUCache(int capacity) {
+        super(16, 0.75f, true);
+        this.capacity = capacity;
+    }
+    public int get(int key) {
+        Integer value = super.get(key);
+        if(value==null) return -1;
+        else return value;
+    }
+    public void set(int key, int value) {
+        super.put(key, value);
+    }
+    public boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest){
+        return super.size() > capacity;
+    }
+}
