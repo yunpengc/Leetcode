@@ -1,7 +1,8 @@
 Given an integer, convert it to a roman numeral.
 Input is guaranteed to be within the range from 1 to 3999.
-(Greedy Algorithm)
 
+1.
+//Greedy Algorithm: each time fetch the max possible number 
 public class Solution {
     public String intToRoman(int num) {
         String[] a = {"M","CM","D","CD","C","XC","L","XL","X", "IX", "V", "IV", "I"};
