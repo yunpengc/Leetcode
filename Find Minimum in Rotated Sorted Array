@@ -30,6 +30,6 @@ public class Solution {
             if(num[left]<num[mid])  left=mid;
             if(num[right]>num[mid]) right=mid;
         }
-        return num[right];
+        return Math.min(num[left], num[right]);
     }
 }
