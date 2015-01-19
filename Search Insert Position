@@ -9,6 +9,7 @@ Here are few examples.
 
 1.
 //just iterate the array
+//time:O(n), space:O(1)
 public class Solution {
     public int searchInsert(int[] A, int target) {
         if(A.length==0) return -1;
@@ -24,6 +25,7 @@ public class Solution {
 
 2.
 //binary search
+//time:O(log n), space:O(1)
 public class Solution {
     public int searchInsert(int[] A, int target) {
         if(A.length==0) return -1;
