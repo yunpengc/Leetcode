@@ -11,6 +11,7 @@ public class Solution {
         int[] result={-1,-1};
         if(A.length==0 || A==null) return result;
         int l=0, r=A.length-1;
+        //determine the left boundary l
         while(l<=r){
             int mid=(l+r)/2;
             if(target>A[mid]){
@@ -20,6 +21,7 @@ public class Solution {
             }
         }
         int ll=0, rr=A.length-1;
+        //determine the right boundary rr
         while(ll<=rr){
             int mid=(ll+rr)/2;
             if(target>=A[mid]){
