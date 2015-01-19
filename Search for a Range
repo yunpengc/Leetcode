@@ -8,10 +8,9 @@ For example, Given [5, 7, 7, 8, 8, 10] and target value 8, return [3, 4].
 //time:O(log n)
 public class Solution {
     public int[] searchRange(int[] A, int target) {
-        int[] result={-1,-1};
-        if(A.length==0 || A==null) return result;
+        int[] res={-1, -1};
+        if(A.length==0 || A==null) return res;
         int l=0, r=A.length-1;
-        //determine the left boundary l
         while(l<=r){
             int mid=(l+r)/2;
             if(target>A[mid]){
@@ -21,19 +20,18 @@ public class Solution {
             }
         }
         int ll=0, rr=A.length-1;
-        //determine the right boundary rr
         while(ll<=rr){
             int mid=(ll+rr)/2;
-            if(target>=A[mid]){
-                ll=mid+1;
-            }else{
+            if(target<A[mid]){
                 rr=mid-1;
-            }         
+            }else{
+                ll=mid+1;
+            }
         }
         if(l<=rr){
-            result[0]=l;
-            result[1]=rr;
+            res[0]=l;
+            res[1]=rr;
         }
-        return result;
+        return res;
     }
 }
