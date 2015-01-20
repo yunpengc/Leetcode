@@ -46,7 +46,7 @@ public class LRUCache {
             int k = removeEnd();
             map.remove(k);
             putToHead(p);  
-            map.put(key, p);
+            map.put(key, p);  //not k, it's key!!!
         }
     }
     public void putToHead(Node p){
@@ -61,7 +61,8 @@ public class LRUCache {
     }
     public int removeEnd(){
         Node p = tail.prev;  
-        tail.prev.prev.next = tail;  
+        p.prev.next = tail;  
+        p.next.prev = p.prev;
         tail.prev = p.prev;  
         p.prev = null;  
         p.next = null;  
