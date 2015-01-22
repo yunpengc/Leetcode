@@ -1,0 +1,36 @@
+The count-and-say sequence is the sequence of integers beginning as follows:
+1, 11, 21, 1211, 111221, ...The following are sequence from n=1 to n=10:
+ 1.     1
+ 2.     11
+ 3.     21
+ 4.     1211
+ 5.     111221 
+ 6.     312211
+ 7.     13112221
+ 8.     1113213211
+ 9.     31131211131221
+ 10.    13211311123113112211
+ 
+ 1. Recursive approach
+ public class Solution {
+    public String countAndSay(int n) {
+        if(n<1) return "";
+        if(n==1) return "1";
+        if(n==2) return "11";
+        String last = countAndSay(n-1);
+        String s = "";
+        int j=0, num=1;
+        while(j<last.length()){
+            if(j<last.length()-1 && last.charAt(j)==last.charAt(j+1)){
+                j++;
+                num++;
+                continue;
+            }
+            s += num+""+last.charAt(j);
+            j++;
+            num=1;
+        }
+        return s;
+    }
+}
+ 
