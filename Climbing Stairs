@@ -30,3 +30,19 @@ public class Solution {
         return array[n-1];
     }
 }
+
+3. Improved
+//no need to store each value in the process 
+//time:O(n), space:O(1)
+public class Solution {
+    public int climbStairs(int n) {
+        if(n==0 || n==1 || n==2) return n;
+        int a=1, b=2, c=0;
+        for(int i=0;i<n-2;++i){
+            c=a+b;
+            a=b;
+            b=c;
+        }
+        return c;
+    }
+}
