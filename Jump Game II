@@ -9,7 +9,6 @@ The minimum number of jumps to reach the last index is 2. (Jump 1 step from inde
 public class Solution {
     public int jump(int[] A) {
         if(A.length<2) return 0;
-        if(A[0]==0 && A.length>1) return -1;
         int oldMax = A[0];
         int newMax = A[0];
         int step = 1;
