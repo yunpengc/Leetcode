@@ -1,0 +1,71 @@
+Follow up for problem "Populating Next Right Pointers in Each Node".
+What if the given tree could be any binary tree? Would your previous solution still work?
+Note: You may only use constant extra space. For example,
+Given the following binary tree,
+         1
+       /  \
+      2    3
+     / \    \
+    4   5    7
+         1 -> NULL
+       /  \
+      2 -> 3 -> NULL
+     / \    \
+    4-> 5 -> 7 -> NULL
+/**
+ * Definition for binary tree with next pointer.
+ * public class TreeLinkNode {
+ *     int val;
+ *     TreeLinkNode left, right, next;
+ *     TreeLinkNode(int x) { val = x; }
+ * }
+ */  
+1.
+//time: O(n), space: O(1)
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        if (root == null) return;
+        TreeLinkNode curr = root;
+        // The last level will not have any start pointers of that level, thus breaking the loop    
+        while (curr != null) {
+            // Common idea in linked list is to use a helper prev node (handle cases of head)
+            TreeLinkNode nextCurr = new TreeLinkNode(0);
+            TreeLinkNode helper = nextCurr;    
+            TreeLinkNode mover = curr;
+            // This moves through the entire level and link the next level
+            while (mover != null) {
+                if (mover.left != null) {
+                    nextCurr.next = mover.left;
+                    nextCurr = nextCurr.next;
+                }
+                if (mover.right != null) {
+                    nextCurr.next = mover.right;
+                    nextCurr = nextCurr.next;
+                }
+                mover = mover.next;
+            }
+            // Curr now becomes the head of the next level
+            curr = helper.next;
+        }
+    }
+}
+
+2.
+//Recursive approach, not constant cost in space!!!!!!!!
+public class Solution {
+public void connect(TreeLinkNode root) {
+    if(root==null ) return;
+    if(root.left != null && root.right != null) root.left.next = root.right; // left.next = right if right exists
+    if(root.left != null && root.right == null) root.left.next = nextChild(root.next); // call nextChild if right == null
+    if(root.right != null) root.right.next = nextChild(root.next); 
+    connect(root.right); // take care here, the right must be finished before left, otherwise we will miss nodes;
+    connect(root.left);
+}
+public TreeLinkNode nextChild(TreeLinkNode node) {
+    while(node != null) {
+        if(node.left != null) return node.left;
+        if(node.right != null) return node.right;
+        node = node.next;
+    }
+    return null;
+}
