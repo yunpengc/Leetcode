@@ -30,7 +30,7 @@ For example, Given the following perfect binary tree,
  
  1.
  //time: O(n) space: O(1)
- //can't use recersive approach
+ //in this question, the bianry tree is full(except the leaf nodes) 
 public class Solution {
     public void connect(TreeLinkNode root) {
         if(root==null || (root.left==null && root.right==null)) return;
@@ -48,6 +48,25 @@ public class Solution {
                 prev = prev.next;
             }
             curr = curr.left;
+        }
+    }
+}
+
+2.
+//recursive approach, space complexity>constant!!!!!!!!!!
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        if (root == null)
+            return;
+        connect(root.left);
+        connect(root.right);
+        connect(root.left, root.right);
+    }
+    public void connect(TreeLinkNode left, TreeLinkNode right) {
+        while (left != null) {
+            left.next = right;
+            left = left.right;
+            right = right.left;
         }
     }
 }
