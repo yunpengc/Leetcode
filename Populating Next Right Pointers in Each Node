@@ -1,0 +1,53 @@
+Given a binary tree
+    struct TreeLinkNode {
+      TreeLinkNode *left;
+      TreeLinkNode *right;
+      TreeLinkNode *next;
+    }
+Populate each next pointer to point to its next right node. If there is no next right node, 
+the next pointer should be set to NULL. Initially, all next pointers are set to NULL.
+Note:You may only use constant extra space. You may assume that it is a perfect binary tree 
+(ie, all leaves are at the same level, and every parent has two children).
+For example, Given the following perfect binary tree,
+         1
+       /  \
+      2    3
+     / \  / \
+    4  5  6  7
+        1 -> NULL
+       /  \
+      2 -> 3 -> NULL
+     / \  / \
+    4->5->6->7 -> NULL
+/**
+ * Definition for binary tree with next pointer.
+ * public class TreeLinkNode {
+ *     int val;
+ *     TreeLinkNode left, right, next;
+ *     TreeLinkNode(int x) { val = x; }
+ * }
+ */
+ 
+ 1.
+ //time: O(n) space: O(1)
+ //can't use recersive approach
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        if(root==null || (root.left==null && root.right==null)) return;
+        root.next = null;
+        TreeLinkNode prev=null, curr=root;
+        while(curr!=null){
+            prev = curr;
+            while(prev!=null){
+                if(prev.left!=null){
+                    prev.left.next = prev.right;
+                }
+                if(prev.right!=null && prev.next!=null){
+                    prev.right.next = prev.next.left;
+                }
+                prev = prev.next;
+            }
+            curr = curr.left;
+        }
+    }
+}
