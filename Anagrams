@@ -1,0 +1,26 @@
+Given an array of strings, return all groups of strings that are anagrams.
+Note: All inputs will be in lower-case.
+1.
+//HashMap time: O(nklogk) space: O(nk) --- n: the length of strs, k: the max length of a string in the strs
+public class Solution {
+    public List<String> anagrams(String[] strs) {
+        List<String> list = new ArrayList<String>();
+        if(strs.length==0 || strs==null) return list;
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for(int i=0;i<strs.length;++i){
+            char[] array = strs[i].toCharArray();
+            java.util.Arrays.sort(array);
+            String s = new String(array);   //can't just array.toString(), e.g.{"",""}
+            if(map.containsKey(s)){
+                list.add(strs[i]);
+                if(map.get(s)>=0){
+                    list.add(strs[map.get(s)]);
+                    map.put(s, -1);
+                }
+            }else{
+                map.put(s, i);
+            }
+        }
+        return list;
+    }
+}
