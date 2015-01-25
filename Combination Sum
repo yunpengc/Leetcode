@@ -15,23 +15,21 @@ public class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> lists = new LinkedList<List<Integer>>();
         Arrays.sort(candidates);
-        recurse(candidates, target, new ArrayList<Integer>(), 0, lists);
+        List<Integer> a = new ArrayList<Integer>();
+        recurse(candidates, target, a, 0, lists);
         return lists;
     }
     public void recurse(int[] candidates, int target, List<Integer> array, int index, List<List<Integer>> lists){
+        if(target<0) return;
         if(target==0){
-            lists.add(array);
+            lists.add(new ArrayList<Integer>(array));
             return;
         }
         for(int i=index;i<candidates.length;++i){
-            int newtarget = target - candidates[i];
-            if(newtarget>=0){
-                List<Integer> copy = new ArrayList<Integer>(array);          
-                copy.add(candidates[i]);
-                recurse(candidates, newtarget, copy, i, lists);
-            }else{
-                return;
-            }
+            if(i>0 && candidates[i]==candidates[i-1]) continue;
+            array.add(candidates[i]);
+            recurse(candidates, target-candidates[i], array, i, lists);
+            array.remove(array.size()-1);
         }
     }
 }
