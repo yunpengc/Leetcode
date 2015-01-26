@@ -1,0 +1,32 @@
+Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+For example, [1,1,2] have the following unique permutations: [1,1,2], [1,2,1], and [2,1,1].
+
+1.
+//对于重复的元素循环时跳过递归函数的调用，只对第一个未被使用的进行递归，我们那么这一次结果会出现在第一个的递归函数结果中，
+//而后面重复的会被略过。如果第一个重复元素前面的元素还没在当前结果中，那么我们不需要进行递归。
+//首先我们要对元素集合排序，从而让重复元素相邻，接下来就是一行代码对于重复元素和前面元素使用情况的判断即可。
+public class Solution {
+    public List<List<Integer>> permuteUnique(int[] num) {
+        List<List<Integer>> lists = new ArrayList<List<Integer>>();
+        if(num==null || num.length==0) return lists;
+        java.util.Arrays.sort(num);
+        helper(num, new boolean[num.length], new ArrayList<Integer>(), lists);
+        return lists;
+    }
+    public void helper(int[] num, boolean[] used, List<Integer> array, List<List<Integer>> lists){
+        if(array.size()==num.length){
+            lists.add(new ArrayList<Integer>(array));
+            return;
+        }
+        for(int i=0;i<num.length;++i){
+            if(i>0 && !used[i-1] && num[i]==num[i-1]) continue;
+            if(!used[i]){
+                array.add(num[i]);
+                used[i] = true;
+                helper(num, used, array, lists);
+                used[i] = false;
+                array.remove(array.size()-1);
+            }
+        }
+    }
+}
