@@ -1,0 +1,34 @@
+Follow up for N-Queens problem.
+Now, instead outputting board configurations, return the total number of distinct solutions.
+
+1.
+//算法的时间复杂度仍然是指数量级的，空间复杂度是O(n)
+public class Solution {
+    public int totalNQueens(int n) {
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(0);
+        helper(n, 0, new int[n], list);
+        return list.get(0);
+    }
+    public void helper(int n, int row, int[] columnForRow, List<Integer> list){
+        if(row==n){
+            list.set(0, list.get(0)+1);
+            return;
+        }
+        for(int i=0;i<n;++i){
+            columnForRow[row]=i;
+            if(check(row, columnForRow)){
+                helper(n, row+1, columnForRow, list);    
+            }
+        }
+    }
+    public boolean check(int row, int[] columnForRow){
+        for(int i=0;i<row;++i){
+            if(columnForRow[i]==columnForRow[row] 
+                || Math.abs(columnForRow[i]-columnForRow[row])==row-i){
+                    return false;
+                }
+        }
+        return true;
+    }
+}
