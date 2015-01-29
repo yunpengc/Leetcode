@@ -40,7 +40,7 @@ public class Solution {
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
         if(root==null) return list;
-        List<TreeNode> stack = new LinedList<TreeNode>();
+        LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
         while(root!=null || !stack.isEmpty()){
             if(root!=null){
                 stack.push(root);
