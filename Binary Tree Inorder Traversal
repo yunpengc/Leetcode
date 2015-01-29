@@ -1,0 +1,51 @@
+Given a binary tree, return the inorder traversal of its nodes' values.
+For example: Given binary tree {1,#,2,3},
+   1
+    \
+     2
+    /
+   3
+return [1,3,2].
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ 
+ 1.
+ //recursive approach
+ //time: O(n), space: O(logn)
+ public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<Integer>();
+        helper(list, root);
+        return list;
+    }
+    public void helper(List<Integer> list, TreeNode root){
+        if(root==null) return;
+        helper(list, root.left);
+        list.add(root.val);
+        helper(list, root.right);
+    }
+}
+
+2.
+//iterative approach
+//算法时间复杂度也是O(n)，空间复杂度是栈的大小O(logn)
+public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<Integer>();
+        helper(list, root);
+        return list;
+    }
+    public void helper(List<Integer> list, TreeNode root){
+        if(root==null) return;
+        helper(list, root.left);
+        list.add(root.val);
+        helper(list, root.right);
+    }
+}
