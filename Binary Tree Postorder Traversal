@@ -36,4 +36,49 @@ return [3,2,1].
 
 2.
 //iterative approach
-//
+//如果当前栈顶元素的右结点存在并且还没访问过（也就是右结点不等于上一个访问结点），那么就把当前结点移到右结点继续循环
+//如果栈顶元素右结点是空或者已经访问过，那么说明栈顶元素的左右子树都访问完毕，应该访问自己继续回溯了。
+//算法时间复杂度也是O(n)，空间复杂度是栈的大小O(logn)
+public class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<Integer>();
+        if(root==null) return list;
+        LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
+        TreeNode pre = null;
+        while(root!=null || !stack.isEmpty()){
+            if(root!=null){
+                stack.push(root);
+                root = root.left;
+            }else{
+                TreeNode peekNode = stack.peek();
+                if(peekNode.right!=null && pre!=peekNode.right){
+                    root = peekNode.right;
+                }else{
+                    stack.pop();
+                    list.add(peekNode.val);
+                    pre = peekNode;           
+                }
+            }
+        }
+        return list;
+    }
+}
+
+3.
+//Iterative approach
+//算法时间复杂度也是O(n)，空间复杂度是栈的大小O(logn)
+public class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        if(root==null) return list;
+        LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
+        stack.push(root);
+        while(!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            list.addFirst(node.val);
+            if(node.left!=null) stack.push(node.left);
+            if(node.right!=null) stack.push(node.right);
+        }
+        return list;
+    }
+}
