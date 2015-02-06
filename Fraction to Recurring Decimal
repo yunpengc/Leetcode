@@ -1,0 +1,51 @@
+Given two integers representing the numerator and denominator of a fraction, return the fraction in string format.
+If the fractional part is repeating, enclose the repeating part in parentheses. For example,
+Given numerator = 1, denominator = 2, return "0.5".
+Given numerator = 2, denominator = 1, return "2".
+Given numerator = 2, denominator = 3, return "0.(6)".
+
+1.
+//using HashMap to store recurring decimal value, if equals, insert "()" to StringBuilder
+public class Solution {
+        public String fractionToDecimal(int numerator, int denominator) {
+            if (denominator == 0) {
+                throw new IllegalArgumentException(" denominator can not be zero");
+            }
+
+            // avoid overflow for minimum vlaue of interger
+            long newNum = (long) numerator;
+            long newDeNom = (long) denominator;
+
+            StringBuilder sb = new StringBuilder();
+
+            // detect sign
+            if ((newNum > 0 && newDeNom < 0) || (newNum <0 && newDeNom > 0)) {
+                sb.append("-");
+            }
+            // make sure it is postive value
+            newNum = Math.abs(newNum);
+            newDeNom = Math.abs(newDeNom);      
+
+            sb.append(newNum / newDeNom);
+
+            long reminder = newNum % newDeNom;
+            Map<Long, Integer> reminderMap = new HashMap<>();
+
+            if (reminder != 0) {
+                sb.append(".");
+            }
+
+            while (reminder != 0 && !reminderMap.containsKey(reminder)) {
+                reminderMap.put(reminder, sb.length());
+                reminder *= 10;
+                sb.append(reminder / newDeNom);
+                reminder = reminder % newDeNom; 
+            }
+
+            if (reminderMap.containsKey(reminder)) {
+                sb.insert(reminderMap.get(reminder), "(");
+                sb.append(")");
+            }
+            return sb.toString();
+        }
+    }
