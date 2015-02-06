@@ -1,0 +1,42 @@
+A message containing letters from A-Z is being encoded to numbers using the following mapping:
+'A' -> 1
+'B' -> 2
+...
+'Z' -> 26
+Given an encoded message containing digits, determine the total number of ways to decode it. For example, 
+Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12). The number of ways decoding "12" is 2.
+
+1. Dynamic Programming. time: O(n) space: O(1)
+//我们维护的量res[i]是表示前i个数字有多少种解析的方式，接下来来想想递归式，有两种方式：
+//第一种新加进来的数字不然就是自己比较表示一个字符，那么解析的方式有res[i-1]种，
+//第二种就是新加进来的数字和前一个数字凑成一个字符，解析的方式有res[i-2]种（因为上一个字符和自己凑成了一个）。
+//（1）00, 30, 40,....., 90：res[i]=0
+//（2）10, 20：res[i]=res[i-2]
+//（3）11-19, 21-26：res[i]=res[i-1]+res[i-2]
+//（4）01-09, 27-99：res[i]=res[i-1]
+public class Solution {
+    public int numDecodings(String s) {
+        if(s=="null" || s.length()==0 || s.charAt(0)=='0') return 0;
+        int num1=1; //store the number of ways decoding first i-2 digits
+        int num2=1; //store the number of ways decoding first i-1 digits
+        int num3=1; //store the number of ways decoding first i digits
+        for(int i=1;i<s.length();++i){
+            if(s.charAt(i)=='0'){
+                if(s.charAt(i-1)=='2' || s.charAt(i-1)=='1'){
+                        num3=num1;
+                }else{
+                    return 0;
+                }
+            }else{
+                if(s.charAt(i-1)=='1' || (s.charAt(i-1)=='2' && s.charAt(i)>'0' && s.charAt(i)<'7')){
+                    num3=num1+num2;
+                }else{
+                    num3=num2;
+                }
+            }
+            num1=num2;
+            num2=num3;
+        }
+        return num2;
+    }
+}
