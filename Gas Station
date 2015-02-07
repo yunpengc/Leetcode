@@ -1,0 +1,28 @@
+Here are N gas stations along a circular route, where the amount of gas at station i is gas[i].
+You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from station i to its next station (i+1). 
+You begin the journey with an empty tank at one of the gas stations.
+Return the starting gas station's index if you can travel around the circuit once, otherwise return -1.
+Note: The solution is guaranteed to be unique.
+
+1.
+//把这个圈划分成一个个的负序列，以及一个正序列（如果存在的话）。从任意一个站出发，我们可以累加油的净余量，
+//如果出现负的，序列结束，开启一个新的，不仅这个负序列的起点不能作为起点，负序列中的任意一点都不能作为起点。
+//如果将全部油量累计起来，总量为正，那么一定能找到一个起点，使得可以走完一圈，也就是一定有解。
+//time: O(n) space: O(1)
+public class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        if(gas==null || cost==null || gas.length!=cost.length) return -1;
+        int curSum = 0;
+        int total = 0;
+        int pointer = -1;
+        for(int i=0;i<gas.length;++i){
+            curSum += gas[i]-cost[i];
+            total += gas[i]-cost[i];
+            if(curSum<0){
+                curSum = 0;
+                pointer = i;
+            }
+        }
+        return total>=0?pointer+1:-1;
+    }
+}
