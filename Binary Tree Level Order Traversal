@@ -1,0 +1,56 @@
+Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+For example: Given binary tree {3,9,20,#,#,15,7},
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its level order traversal as:
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+1.
+//using a queue to offer and poll nodes, keep two pointers indicate last level and current value
+//only when the number of last level nodes is 0, new a arraylist to add current level node
+//time: O(n) space: O(n)
+public class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        if(root==null) return list;
+        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+        List<Integer> array = new ArrayList<Integer>();
+        int curNum=0, lastNum=1;
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            TreeNode node = queue.poll();
+            lastNum--;
+            array.add(node.val);
+            if(node.left!=null){
+                queue.add(node.left);
+                curNum++;
+            }
+            if(node.right!=null){
+                queue.add(node.right);
+                curNum++;
+            }
+            if(lastNum==0){
+                lastNum = curNum;
+                curNum = 0;
+                list.add(array);
+                array = new ArrayList<Integer>();
+            }
+        }
+        return list;
+    }
+}
