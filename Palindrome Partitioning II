@@ -1,0 +1,39 @@
+Given a string s, partition s such that every substring of the partition is a palindrome.
+Return the minimum cuts needed for a palindrome partitioning of s.
+For example, given s = "aab", Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
+
+1. Dynamic Programming
+//这道题跟Palindrome Partitioning区别就是不需要返回所有满足条件的结果，而只是返回最小的切割数量就可以。
+//与Word Break非常类似，当我们要返回所有结果（Palindrome Partitioning和Word Break II）的时候，
+//使用动态规划会耗费大量的空间来存储中间结果，所以没有明显的优势。而当题目要求是返回某个简单量
+//比如Word Break是返回能否切割，而这道题是返回最小切割数时，那么动态规划比起brute force就会有明显的优势。
+//这道题先用Palindrome Partitioning中的方法建立字典，接下来动态规划的方式和Word Break是完全一样的。
+//保存历史信息只需要常量时间就能完成，进行两层循环，时间复杂度是O(n^2)。空间上需要一个线性数组来保存信息，所以是O(n)。
+public class Solution {
+    public int minCut(String s) {
+        if(s==null || s.length()==0) return 0;
+        boolean[][] pal = getPal(s);
+        int[] res = new int[s.length()+1];
+        res[0]=0;
+        for(int i=0;i<s.length();++i){
+            res[i+1]=i+1;
+            for(int j=0;j<=i;++j){
+                if(pal[j][i]==true){
+                    res[i+1]=Math.min(res[i+1], res[j]+1);
+                }
+            }
+        }
+        return res[s.length()]-1;
+    }
+    public boolean[][] getPal(String s){
+        boolean[][] pal = new boolean[s.length()][s.length()];
+        for(int i=s.length()-1;i>=0;--i){
+            for(int j=i;j<s.length();++j){
+                if(s.charAt(i)==s.charAt(j) && (j<=i+2 || pal[i+1][j-1])){
+                    pal[i][j]=true;
+                }
+            }
+        }
+        return pal;
+    }
+}
