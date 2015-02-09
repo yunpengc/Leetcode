@@ -8,6 +8,8 @@ Return all possible palindrome partitioning of s. For example, given s = "aab", 
   1. Backtracking
   //similar to the question of the longest palindrome in a string. maintain a boolean array pal[i][j]
   //to store if i, j are palindrome; if true, add to array
+  根据字典的结果进行切割，然后按照循环处理递归子问题的方法，如果当前的子串满足回文条件，
+  //就递归处理字符串剩下的子串。如果到达终点就返回当前结果。时间复杂度最坏情况是指数量级的
   public class Solution {
     public List<List<String>> partition(String s) {
         List<List<String>> list = new ArrayList<List<String>>();
