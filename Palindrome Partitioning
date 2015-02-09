@@ -1,0 +1,43 @@
+Given a string s, partition s such that every substring of the partition is a palindrome.
+Return all possible palindrome partitioning of s. For example, given s = "aab", Return
+  [
+    ["aa","b"],
+    ["a","a","b"]
+  ]
+  
+  1. Backtracking
+  //similar to the question of the longest palindrome in a string. maintain a boolean array pal[i][j]
+  //to store if i, j are palindrome; if true, add to array
+  public class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> list = new ArrayList<List<String>>();
+        if(s==null || s.length()==0) return list;
+        helper(list, getPal(s), s, 0, new ArrayList<String>());
+        return list;
+    }
+    public void helper(List<List<String>> list, boolean[][] pal, String s, int start, List<String> array){
+        if(start==s.length()){
+            list.add(new ArrayList<String>(array));
+            return;
+        }
+        for(int i=0;i<s.length();++i){
+            if(pal[start][i]==true){
+                array.add(s.substring(start, i+1));
+                helper(list, pal, s, i+1, array);
+                array.remove(array.size()-1);
+            }
+        }
+    }
+    public boolean[][] getPal(String s){
+        boolean[][] pal = new boolean[s.length()][s.length()];
+        for(int i=s.length()-1;i>=0;--i){
+            for(int j=i;j<s.length();++j){
+                if(s.charAt(i)==s.charAt(j) && (j<=i+2 || pal[i+1][j-1])){
+                    pal[i][j]=true;
+                }
+            }
+        }
+        return pal;
+    }
+}
+  
