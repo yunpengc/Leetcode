@@ -1,0 +1,26 @@
+Given a string s and a dictionary of words dict, 
+determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+For example, given s = "leetcode", dict = ["leet", "code"].
+Return true because "leetcode" can be segmented as "leet code".
+
+1. Dynamic Programming
+//res[i] means s.substring(0, i) can be found in dict and if res[s.length()] is true, then the string can be
+//segmented into one or more words. F(0, N) = F(0, j) && F(j, i) && F(i, N);
+// time: O(n^2) space: O(n)
+public class Solution {
+    public boolean wordBreak(String s, Set<String> dict) {
+        if(s==null || s.length()==0) return false;
+        if(dict.contains(s)) return true;
+        boolean[] res = new boolean[s.length()+1];
+        res[0]=true;
+        for(int i=0;i<s.length();++i){
+            for(int j=0;j<=i;++j){
+                if(res[j] && dict.contains(s.substring(j,i+1))){
+                    res[i+1] = true;
+                    break;
+                }
+            }
+        }
+        return res[s.length()];
+    }
+}
