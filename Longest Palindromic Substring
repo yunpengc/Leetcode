@@ -1,12 +1,11 @@
 Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, 
 and there exists one unique longest palindromic substring.
 
-1.
+1. Dynamic Programming. time: O(n^2) space: O(n^2)
 //思路是外层循环i从后往前扫，内层循环j从i当前字符扫到结尾处。
 //过程中使用的历史信息是从i+1到n之间的任意子串是否是回文已经被记录下来，所以不用重新判断，只需要比较一下头尾字符即可。
 //如果要返回所有最长回文串，只需要稍做变化就可以，维护一个集合，如果等于当前最大的，即加入集合，
 //否则，如果更长，则清空集合，加入当前这个。
-//time: O(n^2) space: O(n^2)
 public class Solution {
     public String longestPalindrome(String s) {
         if(s==null || s.length()==0) return "";
