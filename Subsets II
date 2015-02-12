@@ -1,0 +1,40 @@
+Given a collection of integers that might contain duplicates, S, return all possible subsets.
+Note: Elements in a subset must be in non-descending order.
+The solution set must not contain duplicate subsets. For example,
+If S = [1,2,2], a solution is:
+[
+  [2],
+  [1],
+  [1,2,2],
+  [2,2],
+  [1,2],
+  []
+]
+
+1.
+// 每当遇到重复元素的时候我们就只把当前结果集的后半部分加上当前元素加入到结果集中，
+// 因为后半部分就是上一步中加入这个元素的所有子集，上一步这个元素已经加入过了，前半部分如果再加就会出现重复。
+// 所以算法上复杂度上没有提高，反而少了一些操作，就是遇到重复时少做一半，不过这里要对元素集合先排序，否则不好判断重复元素。
+public class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] num) {
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        list.add(new ArrayList<Integer>());
+        if(num==null || num.length==0) return list;
+        Arrays.sort(num);
+        int start = 0;
+        for(int i=0;i<num.length;++i){
+            int size = list.size();
+            for(int j=start;j<size;++j){
+                List<Integer> al = new ArrayList<Integer>(list.get(j));
+                al.add(num[i]);
+                list.add(al);
+                if(i<num.length-1 && num[i]==num[i+1]){
+                    start = size;
+                }else{
+                    start = 0;
+                }
+            }
+        }
+        return list;
+    }
+}
