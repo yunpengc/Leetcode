@@ -1,0 +1,67 @@
+You are given a string, S, and a list of words, L, that are all of the same length. Find all starting indices 
+of substring(s) in S that is a concatenation of each word in L exactly once and without any intervening characters.
+For example, given: S: "barfoothefoobarman" L: ["foo", "bar"] 
+You should return the indices: [0,9]. (order does not matter).
+
+// 需要维护一个字典，然后保证目前的串包含字典里面的单词有且仅有一次。思路是维护一个窗口，如果当前单词在字典中，
+// 则继续移动窗口右端，否则窗口左端可以跳到字符串下一个单词了。假设源字符串的长度为n，字典中单词的长度为l。
+// 因为不是一个字符，所以我们需要对源字符串所有长度为l的子串进行判断。做法是i从0到l-1个字符开始，
+// 得到开始index分别为i, i+l, i+2*l, ...的长度为l的单词。这样就可以保证判断到所有的满足条件的串。
+// 因为每次扫描的时间复杂度是O(2*n/l)(每个单词不会被访问多于两次)，总共扫描l次（i=0, ..., l-1)，
+// 所以总复杂度是O(2*n/l*l)=O(n)。空间复杂度是字典的大小，即O(m*l)，其中m是字典的单词数量。
+public class Solution {
+    public List<Integer> findSubstring(String s, String[] L) {
+        List<Integer> list = new ArrayList<Integer>();
+        if(s==null || L==null) return list;
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for(int i=0;i<L.length;++i){
+            if(map.containsKey(L[i])){
+                map.put(L[i], map.get(L[i])+1 );
+            }else{
+                map.put(L[i], 1);
+            }
+        }
+        for(int i=0;i<L[0].length();++i){
+            int left=i, counter=0;
+            HashMap<String, Integer> curMap = new HashMap<String, Integer>();
+            for(int j=i;j+L[0].length()<=s.length();j+=L[0].length()){
+                String str = s.substring(j, j+L[0].length());
+                if(map.containsKey(str)){
+                    if(curMap.containsKey(str)){
+                        curMap.put(str, curMap.get(str)+1);
+                    }else{
+                        curMap.put(str, 1);
+                    }
+                    if(curMap.get(str)<=map.get(str)){
+                        counter++;
+                    }else{
+                        while(curMap.get(str)>map.get(str)){
+                            String temp = s.substring(left, left+L[0].length());
+                            if(curMap.containsKey(temp)){
+                                curMap.put(temp, curMap.get(temp)-1);
+                                if(curMap.get(temp)<map.get(temp)){
+                                    counter--;
+                                }
+                            }
+                            left += L[0].length();
+                        }
+                    }
+                    if(counter==L.length){
+                        list.add(left);
+                        String temp = s.substring(left, left+L[0].length());
+                        if(curMap.containsKey(temp)){
+                            curMap.put(temp, curMap.get(temp)-1);
+                        }
+                        counter--;
+                        left+=L[0].length();
+                    }
+                }else{
+                    curMap.clear();
+                    counter=0;
+                    left=j+L[0].length();
+                }
+            }
+        }
+        return list;
+    }
+}
