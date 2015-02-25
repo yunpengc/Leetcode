@@ -1,0 +1,49 @@
+Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
+For example, S = "ADOBECODEBANC" T = "ABC" Minimum window is "BANC".
+Note: If there is no such window in S that covers all characters in T, return the emtpy string "".
+If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.
+
+1.
+// 建立一个字典，然后维护一个窗口，这道题目中可以跳过没在字典里面的字符，所以遇到没在字典里面的字符可以继续移动窗口右端，
+// 移动窗口左端的条件是当找到满足条件的串之后，一直移动窗口左端直到有字典里的字符不再在窗口里。维护一个HashMap，
+// key包含字典中所有字符，value就是该字符的数量，然后遇到字典中字符时就将对应字符的数量减一。
+// 算法的时间复杂度是O(s.length()),因为每个字符再维护窗口的过程中不会被访问多于两次。空间复杂度则是O(t.length())。
+public class Solution {
+    public String minWindow(String s, String t) {
+        if(s==null || t==null) return "";
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for(int i=0;i<t.length();++i){
+            if(map.containsKey(t.charAt(i))){
+                map.put(t.charAt(i), map.get(t.charAt(i))+1);
+            }else{
+                map.put(t.charAt(i), 1);
+            }
+        }
+        int left=0, minStart=0, minLen=s.length()+1, counter=0;
+        for(int right=0;right<s.length();++right){
+            if(map.containsKey(s.charAt(right))){
+                map.put(s.charAt(right), map.get(s.charAt(right))-1);
+                if(map.get(s.charAt(right))>=0){
+                    counter++;
+                }
+                while(counter==t.length()){
+                    if(minLen>right-left+1){
+                        minLen=right-left+1;
+                        minStart=left;
+                    }
+                    if(map.containsKey(s.charAt(left))){
+                        map.put(s.charAt(left), map.get(s.charAt(left))+1);
+                        if(map.get(s.charAt(left))>0){
+                            counter--;
+                        }
+                    }
+                    left++;
+                }
+            }
+        }
+        if(minLen>s.length())
+            return "";
+        return s.substring(minStart, minStart+minLen);
+    }
+}
