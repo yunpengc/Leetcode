@@ -1,0 +1,56 @@
+Sort a linked list in O(n log n) time using constant space complexity.
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+1.
+// 归并排序，每次找到中点，然后对于左右进行递归，最后用Merge Two Sorted Lists的方法把他们合并起来。
+// time: O(nlog n), space: O(log n)
+public class Solution {
+    public ListNode sortList(ListNode head) {
+        return mergeSort(head);
+    }
+    public ListNode mergeSort(ListNode head){
+        if(head==null || head.next==null)
+            return head;
+        ListNode walker = head;
+        ListNode runner = head;
+        while(runner.next!=null && runner.next.next!=null){
+            walker = walker.next;
+            runner = runner.next.next;
+        }
+        ListNode head1 = head;
+        ListNode head2 = walker.next;
+        walker.next = null;
+        head1 = mergeSort(head1);
+        head2 = mergeSort(head2);
+        return merge(head1, head2);
+    }
+    public ListNode merge(ListNode head1, ListNode head2){
+        ListNode helper = new ListNode(0);
+        helper.next = head1;
+        ListNode pre = helper;
+        while(head1!=null && head2!=null){
+            if(head1.val>head2.val){
+                ListNode next = head2.next;
+                head2.next = pre.next;
+                pre.next = head2;
+                head2 = next;
+            }else{
+                head1 = head1.next;
+            }
+            pre = pre.next;
+        }
+        if(head2!=null){
+            pre.next = head2;
+        }
+        return helper.next;
+    }
+}
