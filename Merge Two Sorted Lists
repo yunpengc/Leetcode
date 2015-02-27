@@ -43,3 +43,31 @@ public class Solution {
         return tmp.next;
     }
 }
+
+2.
+// 维护两个指针对应两个链表，因为一般会以一条链表为基准，比如说l1, 那么如果l1当期那的元素比较小，那么直接移动l1即可，
+// 否则将l2当前的元素插入到l1当前元素的前面。算法时间复杂度是O(m+n),m和n分别是两条链表的长度，空间复杂度是O(1)
+public class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1==null && l2==null) return null;
+        else if(l1==null || l2==null) return l1==null?l2:l1;
+        ListNode helper = new ListNode(0);
+        helper.next = l1;
+        ListNode pre = helper;
+        while(l1!=null && l2!=null){
+            if(l1.val>l2.val){
+                ListNode next = l2.next;
+                l2.next = pre.next;
+                pre.next = l2;
+                l2 = next;
+            }else{
+                l1 = l1.next;
+            }
+            pre = pre.next;
+        }
+        if(l2!=null){
+            pre.next = l2;
+        }
+        return helper.next;
+    }
+}
