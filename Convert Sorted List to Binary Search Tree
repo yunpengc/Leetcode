@@ -1,0 +1,46 @@
+Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+1.
+// 取中点作为当前函数的根, 利用树的中序遍历了，按照递归中序遍历的顺序对链表结点一个个进行访问，
+// 而我们要构造的二分查找树正是按照链表的顺序来的。思路就是先对左子树进行递归，然后将当前结点作为根，
+// 迭代到下一个链表结点，最后在递归求出右子树即可。整体过程就是一次中序遍历，时间复杂度是O(n)，空间复杂度是栈空间O(logn)。
+public class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head==null) return null;
+        ListNode curr = head;
+        int len = 0;
+        while(curr!=null){
+            curr = curr.next;
+            len++;
+        }
+        ArrayList<ListNode> list = new ArrayList<ListNode>();
+        list.add(head);
+        return helper(list, 0, len-1);
+    }
+    public TreeNode helper(ArrayList<ListNode> list, int start, int end){
+        if(start>end) return null;
+        int mid = (start+end)/2;
+        TreeNode left = helper(list, start, mid-1);
+        TreeNode root = new TreeNode(list.get(0).val);
+        root.left = left;
+        list.set(0, list.get(0).next);
+        root.right = helper(list, mid+1, end);
+        return root;
+    }
+}
