@@ -18,7 +18,7 @@ public class Solution {
     }
 }
 
-2. Hashtable(to be viewed)
+2. Hashtable
 public class Solution {  
     public int removeDuplicates(int[] A) {  
         Hashtable<Integer, Integer> ht = new Hashtable<Integer, Integer>();  
