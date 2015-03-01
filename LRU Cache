@@ -4,7 +4,7 @@ get(key) - Get the value (will always be positive) of the key if the key exists 
 set(key, value) - Set or insert the value if the key is not already present. 
 When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
 
-1. //Using double linked list and hashmap
+1. Using double linked list and hashmap
 //once get, if exist in the hashmap, get the value from map and push the node to the head of linked list
 //once set, if exist in the hashmap, just update the node value; if not exist and not exceed capacity, 
 //new a node, add an entry in hashmap and put the node to the head of linked list;
@@ -81,8 +81,7 @@ class Node {
     }  
 }  
 
-2.
-//Using existing LinkedHashMap
+2. Using existing LinkedHashMap
 import java.util.LinkedHashMap;
 public class LRUCache extends LinkedHashMap<Integer, Integer>{
     private int capacity;
