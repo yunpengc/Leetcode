@@ -1,0 +1,31 @@
+Write a function that takes an unsigned integer and returns the number of ’1' bits it has (also known as the Hamming weight). 
+For example, the 32-bit integer ’11' has binary representation 00000000000000000000000000001011, so return 3.
+
+1.
+// A >> 2 will give 15 which is 1111
+// A >>>2 will give 15 which is 0000 1111
+public class Solution {
+    public int hammingWeight(int n) {
+        int counter=0;
+        while(n!=0){
+            if((n&1)==1){
+                counter++;
+            }
+            n = n>>>1;
+        }
+        return counter;
+    }
+}
+
+2.
+// x&(x-1) helps remove the right most 1
+public class Solution {
+    public int hammingWeight(int n) {
+        int counter=0;
+        while(n!=0){
+            n = n&(n-1);
+            counter++;
+        }
+        return counter;
+    }
+}
