@@ -49,3 +49,29 @@ public class Solution {
         }
     }
 }
+
+
+2.
+public class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<String>();
+        if(digits.length()==0 || digits==null){
+            return res;
+        }
+        String[] dic = {" ", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        StringBuilder sb = new StringBuilder();
+        helper(digits, dic, res, 0, sb);
+        return res;
+    }
+    public static void helper(String digits, String[] dic, List<String> res, int num, StringBuilder sb){
+       if(num==digits.length()){
+            res.add(sb.toString());
+            return;
+       }
+        for(int j=0;j<dic[digits.charAt(num)-'0'].length();j++){
+            sb.append(dic[digits.charAt(num)-'0'].charAt(j));
+            helper(digits, dic, res, num+1, sb);
+            sb.deleteCharAt(sb.length()-1);
+        }
+    }
+}
