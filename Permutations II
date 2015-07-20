@@ -5,6 +5,9 @@ For example, [1,1,2] have the following unique permutations: [1,1,2], [1,2,1], a
 //对于重复的元素循环时跳过递归函数的调用，只对第一个未被使用的进行递归，我们那么这一次结果会出现在第一个的递归函数结果中，
 //而后面重复的会被略过。如果第一个重复元素前面的元素还没在当前结果中，那么我们不需要进行递归。
 //首先我们要对元素集合排序，从而让重复元素相邻，接下来就是一行代码对于重复元素和前面元素使用情况的判断即可。
+
+//这道题还要考虑的是visited情况，前一个元素就算跟当前元素相同，如果visited==true也没关系。
+//但是如果前面元素跟当前元素相同还没被visited，那么就要做去重处理了。
 public class Solution {
     public List<List<Integer>> permuteUnique(int[] num) {
         List<List<Integer>> lists = new ArrayList<List<Integer>>();
