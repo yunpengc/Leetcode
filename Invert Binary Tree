@@ -1,0 +1,68 @@
+Invert a binary tree.
+
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+to
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+
+1. Recursion
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root==null){
+            return null;
+        }
+        TreeNode left = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(left);
+        return root;
+    }
+}
+
+2. Iteration
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root==null){
+            return null;
+        }
+        LinkedList<TreeNode> list = new LinkedList<TreeNode>();
+        list.offer(root);
+        while(!list.isEmpty()){
+            TreeNode node = list.poll();
+            TreeNode left = node.left;
+            node.left = node.right;
+            node.right = left;
+            if(node.left!=null){
+                list.offer(node.left);
+            }
+            if(node.right!=null){
+                list.offer(node.right);
+            }
+        }
+        return root;
+    }
+}
