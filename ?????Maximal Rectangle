@@ -1,0 +1,49 @@
+Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing all ones and return its area.
+
+1.
+// You can maintain a row length of Integer array height recorded its height of '1's, 
+// and scan and update row by row to find out the largest rectangle of each row.
+// For each row, if matrix[row][i] == '1'. H[i] +=1, or reset the H[i] to zero. 
+// and accroding the algorithm of [Largest Rectangle in Histogram], to update the maximum area.
+// Regarding the array height, it records the current height of columns during the loop of rows, 
+// where the height is defined as:
+// for row of index `row`, the consecutive number of 1's from `row` to `0`
+// the height for column j height[j] is reset to 0 where matrix[i][j] is 0 while looping through row.
+public class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        if(matrix.length==0 || matrix[0].length==0){
+            return 0;
+        }
+        int[] height = new int[matrix[0].length+1];
+        height[0] = 0;
+        int max = 0;
+        for(int i=0;i<matrix.length;i++){
+            Stack<Integer> stack = new Stack<Integer>();
+            for(int j=0;j<=matrix[0].length;j++){
+                if(j<matrix[0].length){
+                    if(matrix[i][j]=='1'){
+                        height[j] += 1;
+                    }else{
+                        height[j] = 0;
+                    }                    
+                }
+                if(stack.isEmpty() || height[j]>=height[stack.peek()]){
+                    stack.push(j);
+                }else{
+                    while(!stack.isEmpty() && height[j]<height[stack.peek()]){
+                        int num = stack.pop();
+                        int area = 0;
+                        if(stack.isEmpty()){
+                           area = height[num]*j; 
+                        }else{
+                           area = height[num]*(j-stack.peek()-1);
+                        }
+                        max = Math.max(area, max);
+                    }
+                    stack.push(j);
+                }
+            }
+        }
+        return max;
+    }
+}
