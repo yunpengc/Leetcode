@@ -32,6 +32,8 @@ public class Solution {
             head = head.next;
         }
         cur1.next = fake2.next;
+        // For this list: 5->6->1->2, x=3, at last cur2 points to 6, cur1 points to 2
+        // we must set 6->1 to 6->null, otherwise there will be a cycle.
         cur2.next = null;
         return fake1.next;
     }
