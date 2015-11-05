@@ -27,47 +27,35 @@ public class Solution {
 }
 
 2.
-//time: O(mn), spcae: O(1)
-//use the first row to store 0 value of each colume, to use the first colume to store 0 value of each row
+// time: O(mn), spcae: O(1)
+// store states of each row in the first of that row, and store states of each column in the first of that column. 
+// Because the state of row0 and the state of column0 would occupy the same cell, let it be the state of row0, 
+// and use another variable "col" for column0. In the first phase, use matrix elements to set states in a top-down way. 
+// In the second phase, use states to set matrix elements in a bottom-up way.
 public class Solution {
     public void setZeroes(int[][] matrix) {
-        if(matrix==null || matrix.length==0 || matrix[0].length==0) return;
-        boolean row=false, col=false;
-        for(int i=0;i<matrix.length;++i){
+        if(matrix.length==0 || matrix[0].length==0 || matrix==null){
+            return;
+        }
+        int col = 1;
+        for(int i=0;i<matrix.length;i++){
             if(matrix[i][0]==0){
-                row = true;
-                break;
+                col = 0;
             }
-        }
-        for(int j=0;j<matrix[0].length;++j){
-            if(matrix[0][j]==0){
-                col = true;
-                break;
-            }
-        }
-        for(int i=1;i<matrix.length;++i){
-            for(int j=1;j<matrix[0].length;++j){
+            for(int j=1;j<matrix[0].length;j++){
                 if(matrix[i][j]==0){
-                    matrix[i][0]=0;
-                    matrix[0][j]=0;
+                    matrix[i][0] = matrix[0][j] = 0;
                 }
             }
         }
-        for(int i=1;i<matrix.length;++i){
-            for(int j=1;j<matrix[0].length;++j){
+        for(int i=matrix.length-1;i>=0;i--){
+            for(int j=matrix[0].length-1;j>=1;j--){
                 if(matrix[i][0]==0 || matrix[0][j]==0){
-                    matrix[i][j]=0;
-                }        
+                    matrix[i][j] = 0;
+                }
             }
-        }
-        if(row){
-            for(int i=0;i<matrix.length;++i){
-                matrix[i][0] = 0;   
-            }
-        }
-        if(col){
-            for(int j=0;j<matrix[0].length;++j){
-                matrix[0][j] = 0;   
+            if(col==0){
+                matrix[i][0] = 0;
             }
         }
     }
