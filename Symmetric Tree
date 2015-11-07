@@ -34,6 +34,8 @@ public class Solution {
     }
 }
 2. Iterative approach
+// 1. level traversal. 2. push nodes onto stack, every consecutive is a pair, 
+// and should either be both null or have equal value. repeat until stack is empty.
 public class Solution {
     public boolean isSymmetric(TreeNode root) {
         if(root==null) return true;
